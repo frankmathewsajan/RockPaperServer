@@ -79,14 +79,25 @@ def process_image(request):
         logger.error("Error running YOLO detection: %s", str(e))
         return JsonResponse({"error": "Error during detection"}, status=500)
 
-    # Draw detections on image
+    # Collect detections info and draw detections on image
+    detections_info = []
     for result in results:
         for box in result.boxes:
             x1, y1, x2, y2 = map(int, box.xyxy[0])
             conf = box.conf[0].item()
             cls = int(box.cls[0].item())
-            label = f"{model.names[cls] if hasattr(model, 'names') and cls in model.names else cls} {conf:.2f}"
+            name = model.names[cls] if hasattr(model, 'names') and cls in model.names else str(cls)
+            label = f"{name} {conf:.2f}"
             logger.info("Detection: %s at (%d, %d, %d, %d)", label, x1, y1, x2, y2)
+
+            # Append textual detection information
+            detections_info.append({
+                "label": name,
+                "confidence": conf,
+                "coordinates": {"x1": x1, "y1": y1, "x2": x2, "y2": y2}
+            })
+
+            # Draw rectangle and label on image
             cv2.rectangle(image_cv, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.putText(image_cv, label, (x1, y1 - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
@@ -100,7 +111,7 @@ def process_image(request):
         logger.error("Error converting processed image to PIL format: %s", str(e))
         return JsonResponse({"error": "Error processing image"}, status=500)
 
-    # Save processed image to a buffer
+    # Save processed image to a buffer and encode as base64
     buffer = BytesIO()
     try:
         processed_image.save(buffer, format="JPEG")
@@ -109,9 +120,25 @@ def process_image(request):
         logger.error("Error saving processed image to buffer: %s", str(e))
         return JsonResponse({"error": "Error saving image"}, status=500)
     buffer.seek(0)
+    img_bytes = buffer.read()
+    img_base64 = base64.b64encode(img_bytes).decode('utf-8')
+    image_data = "data:image/jpeg;base64," + img_base64
 
-    logger.info("Returning processed image")
-    return HttpResponse(buffer.getvalue(), content_type="image/jpeg")
+    # If no detections were found, add a message
+    if not detections_info:
+        message = "No detections found"
+    else:
+        message = f"{len(detections_info)} detections found"
+
+    # Return a JSON response containing both the processed image and textual detection info
+    response_payload = {
+        "image": image_data,
+        "detections": detections_info,
+        "message": message
+    }
+    logger.info("Returning processed image and detection info", response_payload)
+    print(response_payload)
+    return JsonResponse(response_payload)
 
 
 def process_video(request):
