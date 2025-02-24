@@ -140,7 +140,7 @@ def process_image(request):
     print(response_payload)
     return JsonResponse(response_payload)
 
-
+@csrf_exempt
 def process_video(request):
     """
     Endpoint to receive video, process it with YOLO model, and return the processed video
@@ -181,6 +181,7 @@ def process_video(request):
         except Exception as e:
             logger.warning(f"Failed to clean up temp files: {str(e)}")
 
+        print('hrere')
         return JsonResponse({
             'processed_video': processed_video_base64,
             'message': 'Video processed successfully'
