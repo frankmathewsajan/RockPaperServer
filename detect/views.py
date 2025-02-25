@@ -139,6 +139,7 @@ def process_image(request):
     logger.info("Returning processed image and detection info", response_payload)
     return JsonResponse(response_payload)
 
+
 @csrf_exempt
 def process_video(request):
     """
@@ -183,7 +184,8 @@ def process_video(request):
         print('We reached here')
         return JsonResponse({
             'video': processed_video_base64,
-            'message': 'Video processed successfully'
+            'message': 'Video processed successfully',
+            'detections': []
         })
 
     except Exception as e:
@@ -227,17 +229,25 @@ def process_with_yolo(input_path, output_path):
 
         # Run YOLO detection
         results = model(frame, stream=True)
-
+        detections_info = []
         # Draw detections on frame
         for result in results:
             for box in result.boxes:
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
                 conf = float(box.conf[0])
                 cls = int(box.cls[0])
+
                 if hasattr(model, 'names') and cls in model.names:
                     label = f"{model.names[cls]} {conf:.2f}"
                 else:
                     label = f"Class {cls} {conf:.2f}"
+
+                detections_info.append({
+                    "label": label,
+                    "confidence": conf,
+                    "coordinates": {"x1": x1, "y1": y1, "x2": x2, "y2": y2}
+                })
+
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
                 cv2.putText(frame, label, (x1, y1 - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
