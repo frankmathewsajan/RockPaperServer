@@ -180,7 +180,7 @@ def process_video(request):
         except Exception as e:
             logger.warning(f"Failed to clean up temp files: {str(e)}")
 
-        print(processed_video_base64)
+        print('We reached here')
         return JsonResponse({
             'processed_video': processed_video_base64,
             'message': 'Video processed successfully'
