@@ -167,7 +167,7 @@ def process_video(request):
         output_video_path = input_video_path + f'_processed.{video_format}'
 
         # Process the video with YOLO
-        process_with_yolo(input_video_path, output_video_path)
+        detections_info = process_with_yolo(input_video_path, output_video_path)
 
         # Read the processed video and encode to base64
         with open(output_video_path, 'rb') as f:
@@ -185,7 +185,7 @@ def process_video(request):
         return JsonResponse({
             'video': processed_video_base64,
             'message': 'Video processed successfully',
-            'detections': []
+            'detections': detections_info
         })
 
     except Exception as e:
@@ -218,6 +218,7 @@ def process_with_yolo(input_path, output_path):
     out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
     frame_count = 0
+    detections_info = []
     while cap.isOpened():
         success, frame = cap.read()
         if not success:
@@ -229,7 +230,7 @@ def process_with_yolo(input_path, output_path):
 
         # Run YOLO detection
         results = model(frame, stream=True)
-        detections_info = []
+
         # Draw detections on frame
         for result in results:
             for box in result.boxes:
@@ -259,6 +260,7 @@ def process_with_yolo(input_path, output_path):
     cap.release()
     out.release()
     logger.info(f"Video processing complete: {frame_count} frames processed")
+    return detections_info
 
 
 def index(request):
