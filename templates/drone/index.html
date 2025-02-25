@@ -1,0 +1,251 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'drone/css/index.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="{% static 'drone/img/TECHTOGREEN.svg' %}" alt="logo" id="logo">
+    </div>
+    <div class="header-icons">
+        <div class="icon" id="language-icon">
+            <img src="{% static 'drone/img/lang.svg' %}" alt="Language" id="language-icon-img">
+        </div>
+        <div class="icon" id="settings-icon">
+            <img src="{% static 'drone/img/setting.svg' %}" alt="Settings" id="settings-icon-img">
+        </div>
+    </div>
+</header>
+
+<!-- Language Selection Box -->
+<div class="language-box" id="language-box">
+    <div class="language-box-content">
+        <h3>Select Language</h3>
+        <button id="english-btn">English</button>
+        <button id="hindi-btn">हिन्दी</button>
+        <button id="telugu-btn">తెలుగు</button>
+        <button class="exit-btn" id="language-exit-btn">
+            <img src="{% static 'drone/img/exit.svg' %}" alt="Exit">
+        </button>
+    </div>
+</div>
+
+<!-- Settings Box -->
+<div class="settings-box" id="settings-box">
+    <div class="settings-box-content">
+        <h3>Map Settings</h3>
+        <button class="exit-btn" id="settings-exit-btn">
+            <img src="{% static 'drone/img/exit.svg' %}" alt="Exit">
+        </button>
+    </div>
+</div>
+
+<div class="scroll-container"><!-- Area Monitoring and Crop Maturity Analysis -->
+
+    <div class="section" id="monitor-maturity" style="display: flex;justify-content: space-between">
+
+
+    </div>
+
+    <div class="section" id="monitor-maturity" style="display: flex;justify-content: space-between">
+        <div class="card margin-top-0" style="background-color: rgba(0,0,0,0.6);">
+            <h1 style="font-size: 1.2rem; color: #72EA9F;">
+                Real-Time Monitoring & Crop Maturity Detection
+            </h1>
+            <p style="margin-top: 10px;">
+                Utilize AI for real-time monitoring of crop health and maturity. Detect diseases early, assess affected
+                areas, and optimize harvest timing for improved yields.
+            </p>
+        </div>
+        <button style="margin-bottom: calc(20vh)">Monitor & Analyze</button>
+
+
+    </div>
+
+    <!-- Spray Planning and Autonomous Flight -->
+    <div class="section" id="spray-flight">
+        <div class="card margin-top-0" style="background-color: rgba(0,0,0,0.6);">
+            <h1 style="font-size: 1.2rem; color: #72EA9F;">
+                Drone Route Optimization for Spraying
+            </h1>
+            <p style="margin-top: 10px;">
+                AI-driven route planning enables autonomous drone spraying, minimizing resource use and improving
+                efficiency.
+            </p>
+        </div>
+        <div class="swipe-container">
+            <a class="bottom-right" style="color: white!important;" data-swipe="{% url 'enclosed' %}">
+                <i class="fa-solid fa-caret-up"></i><br>
+                Swipe Up to Route
+            </a>
+            <div class="swipe-path"></div>
+        </div>
+
+
+    </div>
+
+    <!-- Surveillance -->
+    <div class="section" id="surveillance">
+        <div class="card margin-top-0" style="background-color: rgba(0,0,0,0.6)">
+            <h1 style="font-size: 1.5rem;color: #72EA9F;">
+                Day and Night Surveillance with Advanced AI Tools
+            </h1>
+            <p style="margin-top:10px">Day & night, monitoring & analysis with AI, provides insights for better
+                agricultural management.</p>
+        </div>
+        <div class="swipe-container">
+            <a class="bottom-right" style="text-decoration: none" href="{% url 'enclosed' %}">
+                Start >>>
+            </a>
+            <div class="swipe-path"></div>
+        </div>
+
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function isMobile() {
+                return /Mobi|Android/i.test(navigator.userAgent);
+            }
+
+            if (!isMobile()) {
+                document.body.innerHTML = `<pre style='margin:20px;font-size: xxx-large'>Please open this page on a mobile device to view the content.</pre>`;
+                return false;
+            }
+            const swipeLinks = document.querySelectorAll('[data-swipe]'); // Select all elements with data-swipe attribute
+            const swipePath = document.querySelector('.swipe-path');
+            const swipeContainer = document.querySelector('.swipe-container');
+            const maxSwipeDistance = swipePath.offsetHeight; // Max height to swipe
+
+            swipeLinks.forEach(swipeLink => {
+                let startY = 0;
+                let endY = 0;
+
+                swipeLink.addEventListener('touchstart', function (e) {
+                    startY = e.touches[0].clientY; // Record the start Y position
+                });
+
+                swipeLink.addEventListener('touchmove', function (e) {
+                    endY = e.touches[0].clientY; // Record the end Y position
+                    const swipeDistance = Math.max(0, startY - endY);
+
+                    // Move the button proportionally to the swipe distance, within limits
+                    const progress = Math.min(swipeDistance / maxSwipeDistance, 1);
+                    swipeLink.style.bottom = `calc(30% + ${progress * 30}%)`; // Adjust based on path height
+                    swipeLink.style.transform = `scale(${1 + progress * 0.3})`; // Smooth scaling
+                });
+
+                swipeLink.addEventListener('touchend', function () {
+                    const swipeDistance = Math.max(0, startY - endY);
+                    if (swipeDistance >= maxSwipeDistance * 0.7) { // Trigger at 90% swipe distance
+                        swipeLink.classList.add('move-up'); // Add class for animation
+
+                        // Redirect after animation ends
+                        setTimeout(() => {
+                            window.location.assign(swipeLink.getAttribute('data-swipe')); // Use the data-swipe attribute value as URL
+                        }, 400); // Matches the CSS transition duration
+                    } else {
+                        // Reset position if swipe wasn't sufficient
+                        swipeLink.style.bottom = '30%';
+                        swipeLink.style.transform = 'scale(1)';
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
+</div>
+<!-- Pagination Dots -->
+<div class="pagination-dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Elements for language and settings boxes
+        const languageIcon = document.getElementById('language-icon');
+        const settingsIcon = document.getElementById('settings-icon');
+        const languageBox = document.getElementById('language-box');
+        const settingsBox = document.getElementById('settings-box');
+        const languageExitBtn = document.getElementById('language-exit-btn');
+        const settingsExitBtn = document.getElementById('settings-exit-btn');
+
+        // Open Language Box
+        languageIcon.addEventListener('click', () => {
+            languageBox.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Disable scroll when language box is open
+        });
+
+        // Close Language Box
+        languageExitBtn.addEventListener('click', () => {
+            languageBox.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Enable scroll again
+        });
+
+        // Open Settings Box
+        settingsIcon.addEventListener('click', () => {
+            settingsBox.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Disable scroll when settings box is open
+        });
+
+        // Close Settings Box
+        settingsExitBtn.addEventListener('click', () => {
+            settingsBox.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Enable scroll again
+        });
+
+        // Pagination Dots Implementation
+        const scrollContainer = document.querySelector('.scroll-container');
+        const dots = document.querySelectorAll('.dot');
+        const sections = document.querySelectorAll('.section');
+
+        // Function to update active dot based on scroll position
+        function updateActiveDot() {
+            // Calculate the index of the section currently in view
+            const index = Math.floor(scrollContainer.scrollLeft / window.innerWidth);
+
+            // Update the active dot
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Listen to scroll events on the scroll container to update active dot
+        scrollContainer.addEventListener('scroll', updateActiveDot);
+
+        // Add click event listener to each dot to allow for manual dot clicking (navigation)
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                // Scroll to the corresponding section
+                scrollContainer.scrollTo({
+                    left: window.innerWidth * i,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Set initial active dot
+        updateActiveDot();
+    });
+
+</script>
+
+</body>
+</html>

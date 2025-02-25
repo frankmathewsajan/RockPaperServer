@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from detect import views
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', include('drone.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/process_video/', views.process_video, name='process_video'),

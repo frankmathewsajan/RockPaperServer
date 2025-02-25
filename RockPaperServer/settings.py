@@ -36,7 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "detect.apps.DetectConfig",
+    "drone.apps.DroneConfig",
     "rest_framework",
+
 ]
 
 CHANNEL_LAYERS = {
@@ -44,7 +46,6 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
-
 
 # Increase timeout and max request size for video uploads
 DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50MB
@@ -126,6 +127,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = BASE_DIR / 'static_files'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

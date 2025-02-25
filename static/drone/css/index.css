@@ -1,0 +1,348 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #2F4858;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    height: 65px;
+    background-color: #24677A;
+}
+
+#logo {
+    height: 70px;
+    width: 70px;
+    padding: -10px;
+    display: inline-block;
+}
+
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    height: 70px;
+}
+
+.icon {
+    margin: 0 15px;
+    cursor: pointer;
+}
+
+.icon img {
+    width: 30px;
+}
+
+/* Language and Settings Box */
+.language-box, .settings-box {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.language-box-content, .settings-box-content {
+    background-color: #24677A;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
+}
+
+.language-box h3, .settings-box h3 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.language-box button, .settings-box button {
+    background-color: #30CAA6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
+.language-box button:hover, .settings-box button:hover {
+    background-color: #00A9A3;
+}
+
+.exit-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.exit-btn img {
+    width: 20px;
+}
+
+/* Scrollable Container */
+.scroll-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Section Styles */
+.section {
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column; /* Stack title and card vertically */
+    justify-content: space-evenly;
+    align-items: center;
+    scroll-snap-align: start;
+    height: 100vh;
+    width: 100vw;
+    padding: 20px;
+    position: relative;
+}
+
+/* Title Positioning */
+.section-title {
+    position: absolute;
+    top: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #72EA9F;
+    margin: 0;
+    z-index: 1;
+    text-align: left;
+    padding: 20px;
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.margin-top-0 {
+    margin-top: 0 !important;
+}
+
+/* Card Styles */
+.card {
+    background: rgba(0, 0, 0, 0.5);
+
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: left;
+    max-width: 400px;
+    width: 100%;
+    margin-top: 60px;
+}
+
+/* Card Button Hover Effect */
+.card button:hover {
+    background-color: #00A9A3;
+}
+
+
+
+.section:nth-child(1) {
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(../img/dcs.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+/* Section Background Images */
+.section:nth-child(2) {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/2.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.section:nth-child(3) {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/surveillance.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.section:nth-child(4) {
+    background-image: linear-gradient(rgba(255,255,255, 0.5), rgba(255,255,255, 0.5)), url(../img/surv.png);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    justify-content: space-between !important;
+}
+
+
+/* Card Content Styles */
+.card h3 {
+    margin: 0;
+    color: #72EA9F;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: #d4f3ef;
+    margin-top: 50px;
+}
+
+button {
+    background-color: #30CAA6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 40px;
+    transition: background-color 0.3s;
+}
+
+.card button:hover {
+    background-color: #00A9A3;
+}
+
+/* Pagination Dots Styles */
+.pagination-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #99CCFF; /* Light blue for unselected dots */
+    transition: background-color 0.3s, transform 0.3s ease-in-out;
+
+}
+
+.dot.active {
+    background-color: #0066CC; /* Dark blue for the active dot */
+    transform: scale(1.5); /* Scale effect on active dot for better highlight */
+    border: none;
+}
+
+.dot:last-child {
+    background-color: transparent;
+    border: none;
+
+}
+
+.dot:last-child:active {
+    background-color: transparent;
+    border: none;
+}
+
+.dot:hover {
+    opacity: 1;
+    background-color: #00A9A3;
+}
+
+@media (max-width: 768px) {
+    header {
+        font-size: 1.2rem;
+    }
+
+    .section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card h3 {
+        font-size: 1.5rem;
+    }
+
+    .card p {
+        font-size: 1.2rem;
+    }
+
+    .card button {
+        font-size: 0.9rem;
+    }
+}
+
+
+.swipe-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.swipe-path {
+    position: absolute;
+    bottom: 30%;
+    width: 4px;
+    height: 30%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.bottom-right {
+    font-size: 1.8rem;
+    color: black;
+    position: absolute;
+    align-self: end;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5),
+        0 0 10px rgba(0, 255, 0, 0.4),
+        0 0 15px rgba(0, 255, 0, 0.3),
+        0 0 20px rgba(0, 255, 0, 0.2);
+    animation: zoom-in-out 3s infinite ease-in-out;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    bottom: 30%; /* Initial position */
+    transition: bottom 0.3s ease, transform 0.3s ease;
+}
+
+
+@keyframes zoom-in-out {
+    0%, 100% {
+        transform: scale(1); /* Normal size */
+    }
+    50% {
+        transform: scale(1.08); /* Zoom in */
+    }
+}
+
+.bottom-right.move-up {
+    transform: scale(1.3);
+    opacity: 0;
+}
