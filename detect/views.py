@@ -12,6 +12,19 @@ from ultralytics import YOLO
 from io import BytesIO
 from PIL import Image
 
+DISEASE_INFO = {
+    "Black Fungus Pod": {"color": "black", "medicine": "Mancozeb or Carbendazim"},
+    "Early and Late leaf spot": {"color": "blue", "medicine": "Chlorothalonil or Propiconazole"},
+    "Fungus leaf": {"color": "green", "medicine": "Copper Oxychloride"},
+    "Rust-Leaf": {"color": "orange", "medicine": "Hexaconazole or Sulphur"},
+    "black fungus-groundnut": {"color": "gray", "medicine": "Carbendazim or Thiophanate-methyl"},
+    "brown Fungus Pod": {"color": "brown", "medicine": "Mancozeb or Chlorothalonil"},
+    "bakteri_daun_bergaris": {"color": "yellow", "medicine": "Streptomycin or Copper Hydroxide"},
+    "bercak_coklat": {"color": "red", "medicine": "Propiconazole or Mancozeb"},
+    "bercak_coklat_sempit": {"color": "purple", "medicine": "Carbendazim or Propiconazole"},
+    "hawar_daun_bakteri": {"color": "cyan", "medicine": "Copper Oxychloride or Streptomycin"},
+    "tungro": {"color": "pink", "medicine": "Buprofezin or Imidacloprid"}
+}
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -79,7 +92,6 @@ def process_image(request):
         logger.error("Error running YOLO detection: %s", str(e))
         return JsonResponse({"error": "Error during detection"}, status=500)
 
-
     # Collect detections info and draw detections on image
     detections_info = []
     for result in results:
@@ -94,6 +106,7 @@ def process_image(request):
             # Append textual detection information
             detections_info.append({
                 "label": name,
+                'disease': DISEASE_INFO[name]["medicine"],
                 "confidence": conf,
                 "coordinates": {"x1": x1, "y1": y1, "x2": x2, "y2": y2}
             })
