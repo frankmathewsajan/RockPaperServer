@@ -29,8 +29,7 @@
             formData.append("image", input.files[0]);
 
             fetch("api/process_image/", {
-                method: "POST",
-                body: formData
+                method: "POST",                body: formData
             })
             .then(response => response.blob())
             .then(blob => {
