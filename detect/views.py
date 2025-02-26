@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 # Load the YOLO model (do this at module level for efficiency)
 try:
-    model = YOLO("best_r_p_game_5.pt")
+    model = YOLO("GroundNutDet.pt")
     logger.info("YOLO model loaded successfully")
 except Exception as e:
     logger.error(f"Failed to load YOLO model: {str(e)}")
@@ -78,6 +78,7 @@ def process_image(request):
     except Exception as e:
         logger.error("Error running YOLO detection: %s", str(e))
         return JsonResponse({"error": "Error during detection"}, status=500)
+
 
     # Collect detections info and draw detections on image
     detections_info = []
