@@ -110,6 +110,7 @@ def process_image(request):
                 "confidence": conf,
                 "coordinates": {"x1": x1, "y1": y1, "x2": x2, "y2": y2}
             })
+            print("We are hanging...", detections_info)
 
             # Draw rectangle and label on image
             cv2.rectangle(image_cv, (x1, y1), (x2, y2), (0, 255, 0), 2)
