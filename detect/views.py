@@ -261,6 +261,7 @@ def process_with_yolo(input_path, output_path):
                 detections_info.append({
                     "label": label,
                     "confidence": conf,
+                    "disease": DISEASE_INFO.get(label, {}).get("medicine", ""),
                     "coordinates": {"x1": x1, "y1": y1, "x2": x2, "y2": y2}
                 })
 
