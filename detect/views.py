@@ -141,7 +141,7 @@ def process_image(request):
 
     # If no detections were found, add a message
     if not detections_info:
-        message = "No detections found"
+        message = "Healthy crop - no diseases detected"
     else:
         message = f"{len(detections_info)} detections found"
 
